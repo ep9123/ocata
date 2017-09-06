@@ -16,7 +16,12 @@ ssh  TCP 127.0.0.1 2222 10.0.2.15 22
 
 Login and sudo -i  (become root)
 
+export http_proxy=http://one.proxy.att.com:8080
+export https_proxy=http://one.proxy.att.com:8080
+export no_proxy=127.0.0.1,10.0.2.15,localhost
+
 git clone https://github.com/ep9123/ocata
+
 cd ocata
 environment.sh  
 sql.sh
