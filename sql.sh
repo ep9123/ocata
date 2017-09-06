@@ -1,4 +1,5 @@
 #
+set -x
 # install mariadb and configure
 
 apt -y install mariadb-server python-pymysql
@@ -12,4 +13,18 @@ crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld character-set-se
 
 service mysql restart
 
-mysql_secure_installation
+#mysql_secure_installation
+
+# Remove Anonymous Accounts, if they exist
+mysql -e "DELETE FROM mysql.user WHERE User='';" 
+mysql -e "FLUSH PRIVILEGES;" 
+
+# Removing root user accounts for IPv4, IPv6 and hostname of machine
+mysql -e "DELETE FROM mysql.user WHERE User='root' and Host!='localhost';" 
+mysql -e "FLUSH PRIVILEGES;" 
+
+# Removing Test databases, if they exist
+# DB_LIST=`echo "show databases like 'test%;"| ${MYSQL}`
+mysql -e "DROP database if exists test;"
+mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
+
