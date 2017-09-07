@@ -8,7 +8,10 @@ apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74C
 #add-apt-repository -y 'deb [arch=amd64,i386,ppc64el] http://mirrors.accretive-networks.net/mariadb/repo/10.1/ubuntu xenial main'
 add-apt-repository -y 'deb [arch=amd64,i386,ppc64el] http://mirrors.accretive-networks.net/mariadb/repo/10.2/ubuntu xenial main'
 apt -y update
-DEBIAN_FRONTEND=noninteractive 
+export DEBIAN_FRONTEND=noninteractive
+echo mariadb-server mariadb-server/root_password password openstack | debconf-set-selections
+echo mariadb-server mariadb-server/root_password_again password openstack | debconf-set-selections
+sudo apt-get -y install mariadb-server
 
 apt -y install mariadb-server python-pymysql
 
