@@ -2,6 +2,12 @@
 set -x
 # install mariadb and configure
 
+# MariaDB non default 
+apt -y install software-properties-common
+apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+add-apt-repository -y 'deb [arch=amd64,i386,ppc64el] http://mirrors.accretive-networks.net/mariadb/repo/10.2/ubuntu xenial main'
+apt -y update
+
 apt -y install mariadb-server python-pymysql
 
 crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld bind-address 10.0.2.15 

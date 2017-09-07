@@ -17,9 +17,16 @@ set -x
 #echo "export https_proxy=http://one.proxy.att.com:8080"         >> /etc/environment
 #echo "export no_proxy=127.0.0.1,10.0.2.15,localhost"            >> /etc/environment
 
+# set our hostname
+echo "ocata" > /etc/hostname
+
+# set name resolution in /etc/hosts
 echo " " >> /etc/hosts
-echo "10.0.2.15 controller" >> /etc/hosts
-echo "10.0.2.15 compute" >> /etc/hosts
+echo "10.0.2.15 controller" 	>> /etc/hosts
+echo "10.0.2.15 compute1" 	>> /etc/hosts
+echo "10.0.2.15 block1" 	>> /etc/hosts
+echo "10.0.2.15 object1" 	>> /etc/hosts
+echo "10.0.2.15 object2" 	>> /etc/hosts
 
 #export http_proxy=http://one.proxy.att.com:8080
 #export https_proxy=http://one.proxy.att.com:8080
@@ -31,3 +38,6 @@ add-apt-repository -y cloud-archive:ocata
 apt -y update && apt -y dist-upgrade
 
 apt -y install python-openstackclient crudini
+
+# restart to make sure we are running latest updates
+init 6
