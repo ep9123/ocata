@@ -21,7 +21,8 @@ set -x
 echo "ocata" > /etc/hostname
 
 # set name resolution in /etc/hosts
-echo " " >> /etc/hosts
+echo "127.0.0.1 locahost" 	> /etc/hosts
+echo "10.0.2.15 ocata" 		>> /etc/hosts
 echo "10.0.2.15 controller" 	>> /etc/hosts
 echo "10.0.2.15 compute1" 	>> /etc/hosts
 echo "10.0.2.15 block1" 	>> /etc/hosts
