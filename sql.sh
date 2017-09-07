@@ -28,3 +28,8 @@ mysql -e "FLUSH PRIVILEGES;"
 mysql -e "DROP database if exists test;"
 mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
 
+# set password for root account even though we have authentication plugin assigned
+# need to add pwgen and generate a password
+# this method locks down so only root user can access root;
+mysql -e "set password for 'root'@'localhost' = password('openstack');"
+mysql -e "FLUSH PRIVILEGES;" 
