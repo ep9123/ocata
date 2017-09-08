@@ -10,7 +10,7 @@ export DEBIAN_FRONTEND=noninteractive
 debconf-set-selections <<< "mariadb-server mysql-server/root_password password ${OSPASSWD}"
 debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password ${OSPASSWD}" 
 
-apt -y install mariadb-server python-pymysql
+apt -y install mariadb-server mariadb-backup-10.2 python-pymysql
 
 crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld bind-address 10.0.2.15 
 crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld default-storage-engine innodb 

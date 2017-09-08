@@ -34,7 +34,7 @@ echo "10.0.2.15 object1" 	>> /etc/hosts
 echo "10.0.2.15 object2" 	>> /etc/hosts
 
 echo " " 	>>  ~/.profile
-echo "export OSPASSWD=openstack " 	>>  ~/.profile
+echo "export OSPASSWD=OpenStack4u" 	>>  ~/.profile
 
 
 apt -y install software-properties-common
