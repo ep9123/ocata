@@ -3,15 +3,12 @@ set -x
 # install mariadb and configure
 
 # MariaDB non default 
-apt -y install software-properties-common
-apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-#add-apt-repository -y 'deb [arch=amd64,i386,ppc64el] http://mirrors.accretive-networks.net/mariadb/repo/10.1/ubuntu xenial main'
-add-apt-repository -y 'deb [arch=amd64,i386,ppc64el] http://mirrors.accretive-networks.net/mariadb/repo/10.2/ubuntu xenial main'
-apt -y update
-export DEBIAN_FRONTEND=noninteractive
-echo mariadb-server mariadb-server/root_password password openstack | debconf-set-selections
-echo mariadb-server mariadb-server/root_password_again password openstack | debconf-set-selections
-sudo apt-get -y install mariadb-server
+#apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+#add-apt-repository -y 'deb [arch=amd64,i386,ppc64el] http://mirrors.accretive-networks.net/mariadb/repo/10.2/ubuntu xenial main'
+#apt -y update
+#export DEBIAN_FRONTEND=noninteractive
+#debconf-set-selections <<< "mariadb-server mysql-server/root_password password ${OSPASSWD}"
+#debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password ${OSPASSWD}" 
 
 apt -y install mariadb-server python-pymysql
 
@@ -29,6 +26,18 @@ crudini --set /etc/mysql/conf.d/99-openstack.cnf mysqld max_connections 4096
 crudini --set /etc/mysql/conf.d/99-openstack.cnf mysqld collation-server utf8_general_ci
 crudini --set /etc/mysql/conf.d/99-openstack.cnf mysqld character-set-server utf8 
 
+# INSTALL PLUGIN unix_socket SONAME 'auth_socket';
+#
+# Password settings
+#
+
+# The MySQL server
+#[mysqld]
+
+# Password validation
+#plugin-load-add=simple_password_check.so
+#simple_password_check_other_characters=0
+
 
 service mysql restart
 
@@ -37,7 +46,7 @@ service mysql restart
 # set password for root account even though we have authentication plugin assigned
 # need to add pwgen and generate a password
 # this method locks down so only root user can access root;
-#mysql -e "set password for 'root'@'localhost' = password('openstack');"
+#mysql -e "set password for 'root'@'localhost' = password('${OSPASSWD}');"
 #mysql -e "FLUSH PRIVILEGES;" 
 
 # Remove Anonymous Accounts, if they exist
