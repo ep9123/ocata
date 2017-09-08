@@ -12,31 +12,24 @@ debconf-set-selections <<< "mariadb-server mysql-server/root_password_again pass
 
 apt -y install mariadb-server python-pymysql
 
-#crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld bind-address 10.0.2.15 
-#crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld default-storage-engine innodb 
-#crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld innodb_file_per_table on 
-#crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld max_connections 4096
-#crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld collation-server utf8_general_ci
-#crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld character-set-server utf8 
+crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld bind-address 10.0.2.15 
+crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld default-storage-engine innodb 
+crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld innodb_file_per_table on 
+crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld max_connections 4096
+crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld collation-server utf8_general_ci
+crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld character-set-server utf8 
+crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld plugin-load-add auth_socket.so
+crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld plugin-load-add simple_password_check.so
+crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld simple_password_check_other_characters 0
 
-crudini --set /etc/mysql/conf.d/99-openstack.cnf mysqld bind-address 10.0.2.15 
-crudini --set /etc/mysql/conf.d/99-openstack.cnf mysqld default-storage-engine innodb 
-crudini --set /etc/mysql/conf.d/99-openstack.cnf mysqld innodb_file_per_table on 
-crudini --set /etc/mysql/conf.d/99-openstack.cnf mysqld max_connections 4096
-crudini --set /etc/mysql/conf.d/99-openstack.cnf mysqld collation-server utf8_general_ci
-crudini --set /etc/mysql/conf.d/99-openstack.cnf mysqld character-set-server utf8 
-
-# INSTALL PLUGIN unix_socket SONAME 'auth_socket';
 #
 # Password settings
 #
-
-# The MySQL server
-#[mysqld]
-
-# Password validation
-#plugin-load-add=simple_password_check.so
-#simple_password_check_other_characters=0
+#install plugin auth_socket soname 'auth_socket.so';
+#use mysql; update user set plugin='mysql_native_password';
+#update mysql.user set plugin = 'auth_socket' where User='root';
+#flush privileges;
+#update mysql.user set plugin = 'unix_socket' where User='root';
 
 
 service mysql restart
