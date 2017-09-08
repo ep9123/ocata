@@ -22,25 +22,10 @@ crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld plugin-load-add 
 crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld plugin-load-add simple_password_check.so
 crudini --set /etc/mysql/mariadb.conf.d/99-openstack.cnf mysqld simple_password_check_other_characters 0
 
-#
-# Password settings
-#
-#install plugin auth_socket soname 'auth_socket.so';
-#use mysql; update user set plugin='mysql_native_password';
-#update mysql.user set plugin = 'auth_socket' where User='root';
-#flush privileges;
-#update mysql.user set plugin = 'unix_socket' where User='root';
-
+#Secure installation 
+mysql -p${OSPASSWD} -e "install plugin unix_socket soname 'auth_socket.so'; update mysql.user set plugin = 'unix_socket' where User='root';"
 
 service mysql restart
-
-#mysql_secure_installation
-
-# set password for root account even though we have authentication plugin assigned
-# need to add pwgen and generate a password
-# this method locks down so only root user can access root;
-#mysql -e "set password for 'root'@'localhost' = password('${OSPASSWD}');"
-#mysql -e "FLUSH PRIVILEGES;" 
 
 # Remove Anonymous Accounts, if they exist
 mysql -e "DELETE FROM mysql.user WHERE User='';" 
