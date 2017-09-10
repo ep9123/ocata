@@ -6,6 +6,9 @@ set -x
 
 # Password is passed 
 export OSPASSWD=$1
+if [ "x${OSPASSWD}" = 'x' ] ;then
+	export OSPASSWD=OpenStack4u
+fi
 echo " " 	>>  ~/.profile
 echo "export OSPASSWD=${OSPASSWD}" 	>>  ~/.profile
 
@@ -14,9 +17,9 @@ echo "export OSPASSWD=${OSPASSWD}" 	>>  ~/.profile
 #echo 'Acquire::https::proxy "http://one.proxy.att.com:8080/";' >> /etc/apt/apt.conf
 
 # proxy.sh
-#echo "export http_proxy=http://one.proxy.att.com:8080"          >> /etc/profile.d/proxy.sh
-#echo "export https_proxy=http://one.proxy.att.com:8080"         >> /etc/profile.d/proxy.sh
-#echo "export no_proxy=127.0.0.1,10.0.2.15,localhost"            >> /etc/profile.d/proxy.sh
+echo "export http_proxy=http://one.proxy.att.com:8080"           > /etc/profile.d/proxy.sh
+echo "export https_proxy=http://one.proxy.att.com:8080"         >> /etc/profile.d/proxy.sh
+echo "export no_proxy=127.0.0.1,10.0.2.15,localhost"            >> /etc/profile.d/proxy.sh
 echo "export no_proxy=127.0.0.1,10.0.2.15,localhost,ocata,controller,compute1,block1,object1,object2"   >> /etc/profile.d/proxy.sh
 
 
@@ -24,12 +27,12 @@ echo "export no_proxy=127.0.0.1,10.0.2.15,localhost,ocata,controller,compute1,bl
 #echo "export http_proxy=http://one.proxy.att.com:8080"          >> /etc/environment
 #echo "export https_proxy=http://one.proxy.att.com:8080"         >> /etc/environment
 #echo "export no_proxy=127.0.0.1,10.0.2.15,localhost"            >> /etc/environment
-echo "export no_proxy=127.0.0.1,10.0.2.15,localhost,ocata,controller,compute1,block1,object1,object2" >> /etc/environment
-
+#echo "export no_proxy=127.0.0.1,10.0.2.15,localhost,ocata,controller,compute1,block1,object1,object2" >> /etc/environment
 
 #export http_proxy=http://one.proxy.att.com:8080
 #export https_proxy=http://one.proxy.att.com:8080
 #export no_proxy=127.0.0.1,10.0.2.15,localhost
+#export no_proxy=127.0.0.1,10.0.2.15,localhost,ocata,controller,compute1,block1,object1,object2
 
 ##################################################
 # set our hostnames
