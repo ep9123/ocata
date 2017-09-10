@@ -39,6 +39,7 @@ export OS_AUTH_URL=http://controller:35357/v3
 export OS_IDENTITY_API_VERSION=3
 
 openstack project create --domain default --description "Service Project" service
+openstack role add --project service --user admin admin
 openstack project create --domain default --description "Demo Project" demo
 openstack user create --domain default --password demo demo
 openstack user create --password demo demo

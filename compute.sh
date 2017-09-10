@@ -6,14 +6,14 @@ set -x
 #####################################################
 
 mysql -e "create database nova_api;" 
-mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova_api'@'localhost' IDENTIFIED BY '${OSPASSWD}';"
-mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova_api'@'%' IDENTIFIED BY '${OSPASSWD}';"
+mysql -e "GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'localhost' IDENTIFIED BY '${OSPASSWD}';"
+mysql -e "GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'%' IDENTIFIED BY '${OSPASSWD}';"
 mysql -e "create database nova;" 
 mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY '${OSPASSWD}';"
 mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY '${OSPASSWD}';"
 mysql -e "create database nova_cell0;" 
-mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova_cell0'@'localhost' IDENTIFIED BY '${OSPASSWD}';"
-mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova_cell0'@'%' IDENTIFIED BY '${OSPASSWD}';"
+mysql -e "GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' IDENTIFIED BY '${OSPASSWD}';"
+mysql -e "GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' IDENTIFIED BY '${OSPASSWD}';"
 
 . ~/admin-openrc
 

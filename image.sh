@@ -50,16 +50,16 @@ crudini --set /etc/glance/glance-registry.conf glance_store stores file,http
 crudini --set /etc/glance/glance-registry.conf glance_store default_store file
 crudini --set /etc/glance/glance-registry.conf glance_store filesystem_store_datadir /var/lib/glance/images
 
+. ~/admin-openrc
+
 su -s /bin/sh -c "glance-manage db_sync" glance
 
 service glance-registry restart
 service glance-api restart
 
-. ~/admin-openrc
 wget http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
-openstack image create "cirros" \
-  --file cirros-0.3.5-x86_64-disk.img \
-  --disk-format qcow2 --container-format bare \
-  --public
+#openstack image create --file cirros-0.3.5-x86_64-disk.img --disk-format qcow2 --container-format bare --public cirros
+openstack image create --file cirros-0.3.5-x86_64-disk.img --disk-format qcow2 --container-format bare cirros
+
 openstack image list
 
