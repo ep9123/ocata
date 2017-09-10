@@ -1,4 +1,5 @@
 #
+. ~/.profile
 set -x
 #####################################################
 # install identity service and configure
@@ -38,3 +39,38 @@ export OS_USER_DOMAIN_NAME=Default
 export OS_PROJECT_DOMAIN_NAME=Default
 export OS_AUTH_URL=http://controller:35357/v3
 export OS_IDENTITY_API_VERSION=3
+
+openstack project create --domain default --description "Service Project" service
+
+openstack project create --domain default --description "Demo Project" demo
+openstack user create --domain default --password demo demo
+openstack role create user
+openstack role add --project demo --user demo user
+
+#unset OS_AUTH_URL OS_PASSWORD
+#openstack --os-auth-url http://controller:35357/v3 \
+#  --os-project-domain-name default --os-user-domain-name default \
+#  --os-project-name admin --os-username admin token issue
+#openstack --os-auth-url http://controller:5000/v3 \
+#  --os-project-domain-name default --os-user-domain-name default \
+#  --os-project-name demo --os-username demo token issue
+
+echo "export OS_PROJECT_DOMAIN_NAME=Default" >> ~/admin-openrc
+echo "export OS_USER_DOMAIN_NAME=Default" >> ~/admin-openrc
+echo "export OS_PROJECT_NAME=admin" >> ~/admin-openrc
+echo "export OS_USERNAME=admin" >> ~/admin-openrc
+echo "export OS_PASSWORD=${OSPASSWD}" >> ~/admin-openrc
+echo "export OS_AUTH_URL=http://controller:35357/v3" >> ~/admin-openrc
+echo "export OS_IDENTITY_API_VERSION=3" >> ~/admin-openrc
+echo "export OS_IMAGE_API_VERSION=2" >> ~/admin-openrc
+
+echo "export OS_PROJECT_DOMAIN_NAME=Default" >> ~/demo-openrc
+echo "export OS_USER_DOMAIN_NAME=Default" >> ~/demo-openrc
+echo "export OS_PROJECT_NAME=demo" >> ~/demo-openrc
+echo "export OS_USERNAME=demo" >> ~/demo-openrc
+echo "export OS_PASSWORD=demo" >> ~/demo-openrc
+echo "export OS_AUTH_URL=http://controller:5000/v3" >> ~/demo-openrc
+echo "export OS_IDENTITY_API_VERSION=3" >> ~/demo-openrc
+echo "export OS_IMAGE_API_VERSION=2" >> ~/demo-openrc
+
+

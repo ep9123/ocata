@@ -17,11 +17,15 @@ echo "export OSPASSWD=${OSPASSWD}" 	>>  ~/.profile
 #echo "export http_proxy=http://one.proxy.att.com:8080"          >> /etc/profile.d/proxy.sh
 #echo "export https_proxy=http://one.proxy.att.com:8080"         >> /etc/profile.d/proxy.sh
 #echo "export no_proxy=127.0.0.1,10.0.2.15,localhost"            >> /etc/profile.d/proxy.sh
+#export no_proxy=127.0.0.1,10.0.2.15,localhost,ocata,controller,compute1,block1,object1,object2
+
 
 # environment
 #echo "export http_proxy=http://one.proxy.att.com:8080"          >> /etc/environment
 #echo "export https_proxy=http://one.proxy.att.com:8080"         >> /etc/environment
 #echo "export no_proxy=127.0.0.1,10.0.2.15,localhost"            >> /etc/environment
+#export no_proxy=127.0.0.1,10.0.2.15,localhost,ocata,controller,compute1,block1,object1,object2
+
 
 #export http_proxy=http://one.proxy.att.com:8080
 #export https_proxy=http://one.proxy.att.com:8080
@@ -105,3 +109,6 @@ rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 apt -y install memcached python-memcache
 sed -i "s:127.0.0.1:10.0.2.15:g" /etc/memcached.conf
 service memcached restart
+
+#### restart
+init 6
