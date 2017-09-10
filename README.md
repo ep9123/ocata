@@ -24,9 +24,6 @@ git clone https://github.com/ep9123/ocata
 
 cd ocata
 environment.sh  
-sql.sh
-message.sh
-memcache.sh
 identity.sh
 image.sh
 compute.sh
