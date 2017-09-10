@@ -33,8 +33,8 @@ rm -f /var/lib/keystone/keystone.db
 export OS_USERNAME=admin
 export OS_PASSWORD=${OSPASSWD}
 export OS_PROJECT_NAME=admin
-#export OS_USER_DOMAIN_NAME=Default
-#export OS_PROJECT_DOMAIN_NAME=Default
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
 export OS_AUTH_URL=http://controller:35357/v3
 export OS_IDENTITY_API_VERSION=3
 
@@ -46,20 +46,18 @@ openstack role create user
 openstack role add --project demo --user demo user
 
 #####################
-# need to update /etc/keystone/keystone-paste.ini
-crudini --set /etc/keystone/keystone-paste.ini pipeline:public_api pipeline "healthcheck cors sizelimit http_proxy_to_wsgi osprofiler url_normalize request_id build_auth_context token_auth json_body ec2_extension public_service"
-crudini --set /etc/keystone/keystone-paste.ini pipeline:admin_api pipeline "healthcheck cors sizelimit http_proxy_to_wsgi osprofiler url_normalize request_id build_auth_context token_auth json_body ec2_extension public_service"
-crudini --set /etc/keystone/keystone-paste.ini pipeline:api_v3 pipeline "healthcheck cors sizelimit http_proxy_to_wsgi osprofiler url_normalize request_id build_auth_context token_auth json_body ec2_extension public_service"
-
-unset OS_AUTH_URL OS_PASSWORD
-
-openstack --os-auth-url http://controller:35357/v3 \
-  --os-project-domain-name default --os-user-domain-name default \
-  --os-project-name admin --os-username admin --os-password ${OSPASSWD} token issue
-
-openstack --os-auth-url http://controller:5000/v3 \
-  --os-project-domain-name default --os-user-domain-name default \
-  --os-project-name demo --os-username demo --os-password demo token issue
+# Validation
+#####################
+#crudini --set /etc/keystone/keystone-paste.ini pipeline:public_api pipeline "healthcheck cors sizelimit http_proxy_to_wsgi osprofiler url_normalize request_id build_auth_context token_auth json_body ec2_extension public_service"
+#crudini --set /etc/keystone/keystone-paste.ini pipeline:admin_api pipeline "healthcheck cors sizelimit http_proxy_to_wsgi osprofiler url_normalize request_id build_auth_context token_auth json_body ec2_extension public_service"
+#crudini --set /etc/keystone/keystone-paste.ini pipeline:api_v3 pipeline "healthcheck cors sizelimit http_proxy_to_wsgi osprofiler url_normalize request_id build_auth_context token_auth json_body ec2_extension public_service"
+#unset OS_AUTH_URL OS_PASSWORD
+#openstack --os-auth-url http://controller:35357/v3 \
+#  --os-project-domain-name default --os-user-domain-name default \
+#  --os-project-name admin --os-username admin --os-password ${OSPASSWD} token issue
+#openstack --os-auth-url http://controller:5000/v3 \
+#  --os-project-domain-name default --os-user-domain-name default \
+#  --os-project-name demo --os-username demo --os-password demo token issue
 
 echo "export OS_PROJECT_DOMAIN_NAME=Default" >> ~/admin-openrc
 echo "export OS_USER_DOMAIN_NAME=Default" >> ~/admin-openrc
