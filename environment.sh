@@ -19,19 +19,10 @@ echo "export OSPASSWD=${OSPASSWD}" 	>>  ~/.profile
 # proxy.sh
 echo "export http_proxy=http://one.proxy.att.com:8080"           > /etc/profile.d/proxy.sh
 echo "export https_proxy=http://one.proxy.att.com:8080"         >> /etc/profile.d/proxy.sh
-echo "export no_proxy=127.0.0.1,10.0.2.15,localhost"            >> /etc/profile.d/proxy.sh
 echo "export no_proxy=127.0.0.1,10.0.2.15,localhost,ocata,controller,compute1,block1,object1,object2"   >> /etc/profile.d/proxy.sh
-
-
-# environment
-#echo "export http_proxy=http://one.proxy.att.com:8080"          >> /etc/environment
-#echo "export https_proxy=http://one.proxy.att.com:8080"         >> /etc/environment
-#echo "export no_proxy=127.0.0.1,10.0.2.15,localhost"            >> /etc/environment
-#echo "export no_proxy=127.0.0.1,10.0.2.15,localhost,ocata,controller,compute1,block1,object1,object2" >> /etc/environment
 
 #export http_proxy=http://one.proxy.att.com:8080
 #export https_proxy=http://one.proxy.att.com:8080
-#export no_proxy=127.0.0.1,10.0.2.15,localhost
 #export no_proxy=127.0.0.1,10.0.2.15,localhost,ocata,controller,compute1,block1,object1,object2
 
 ##################################################
