@@ -1,6 +1,8 @@
 #
 set -x
+#####################################################
 # install identity service and configure
+#####################################################
 
 mysql -e "create database keystone;" 
 
@@ -10,7 +12,7 @@ mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '${
 apt -y install keystone
 
 
-crudini --set /etc/keystone/keystone.conf database connection mysql+pymysql://keystone:KEYSTONE_DBPASS@controller/keystone
+crudini --set /etc/keystone/keystone.conf database connection mysql+pymysql://keystone:${OSPASSWD}@controller/keystone
 crudini --set /etc/keystone/keystone.conf token provider fernet
 
 su -s /bin/sh -c "keystone-manage db_sync" keystone
