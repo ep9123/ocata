@@ -17,6 +17,7 @@ mysql -e "GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' IDENTIFIED BY '${OS
 
 . ~/admin-openrc
 
+# Nova compute service
 openstack user create --domain default --password ${OSPASSWD} nova
 openstack role add --project service --user nova admin
 openstack service create --name nova --description "OpenStack Compute" compute
@@ -24,10 +25,10 @@ openstack endpoint create --region RegionOne compute public http://controller:87
 openstack endpoint create --region RegionOne compute internal http://controller:8774
 openstack endpoint create --region RegionOne compute admin http://controller:8774
 
+# Placement service
 openstack user create --domain default --password ${OSPASSWD} placement
 openstack role add --project service --user placement admin
 openstack service create --name placement --description "Placement API" placement
-
 openstack endpoint create --region RegionOne placement public http://controller:8778
 openstack endpoint create --region RegionOne placement internal http://controller:8778
 openstack endpoint create --region RegionOne placement admin http://controller:8778
@@ -38,6 +39,7 @@ crudini --set /etc/nova/nova.conf api_database connection mysql+pymysql://nova:$
 crudini --set /etc/nova/nova.conf database connection mysql+pymysql://nova:${OSPASSWD}@controller/nova
 crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:${OSPASSWD}@controller
 crudini --set /etc/nova/nova.conf api auth_strategy keystone
+crudini --del /etc/nova/nova.conf keystone_authtoken
 crudini --set /etc/nova/nova.conf keystone_authtoken auth_uri http://controller:5000
 crudini --set /etc/nova/nova.conf keystone_authtoken auth_url http://controller:35357
 crudini --set /etc/nova/nova.conf keystone_authtoken memcached_servers controller:11211
@@ -56,6 +58,8 @@ crudini --set /etc/nova/nova.conf vnc vncserver_proxyclient_address $my_ip
 crudini --set /etc/nova/nova.conf vnc novncproxy_base_url http://controller:6080/vnc_auto.html
 crudini --set /etc/nova/nova.conf glance api_servers http://controller:9292
 crudini --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
+crudini --del /etc/nova/nova.conf DEFAULT log_dir
+crudini --del /etc/nova/nova.conf placement
 crudini --set /etc/nova/nova.conf placement os_region_name RegionOne
 crudini --set /etc/nova/nova.conf placement project_domain_name Default
 crudini --set /etc/nova/nova.conf placement project name service
@@ -64,7 +68,7 @@ crudini --set /etc/nova/nova.conf placement user_domain_name Defult
 crudini --set /etc/nova/nova.conf placement http://controller:35357/v3
 crudini --set /etc/nova/nova.conf placement username placement
 crudini --set /etc/nova/nova.conf placement password ${OSPASSWD}
-crudini --set /etc/nova/nova-compute.conf libvirt virt_typ qemu
+crudini --set /etc/nova/nova-compute.conf libvirt virt_type qemu
 
 su -s /bin/sh -c "nova-manage api_db sync" nova
 su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
@@ -82,4 +86,4 @@ service nova-compute restart
 
 . ~/admin-openrc
 openstack hypervisor list
-
+su -s /bin/sh -c "nova-manage cell_v2 discover_hosts --verbose" nova
